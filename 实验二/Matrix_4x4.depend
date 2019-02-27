@@ -1,0 +1,44 @@
+# depslib dependency file v1.0
+1544158615 source:c:\users\shuang\iclouddrive\hit\高级语言程序设计\实验\实验二材料\main.cpp
+	<iostream>
+	"Matrix4.h"
+
+1544157827 c:\users\shuang\iclouddrive\hit\高级语言程序设计\实验\实验二材料\matrix4.h
+	<iostream>
+
+1544157689 source:c:\users\shuang\iclouddrive\hit\高级语言程序设计\实验\实验二材料\matrix4.cpp
+	"Matrix4.h"
+
+1544433703 source:e:\tim\实验二材料\main.cpp
+	<iostream>
+	"Matrix4.h"
+
+1544432737 e:\tim\实验二材料\matrix4.h
+	<iostream>
+	"math.h"
+
+1544433894 source:e:\tim\实验二材料\matrix4.cpp
+	"Matrix4.h"
+
+1544454298 source:e:\tim\实验二\main.cpp
+	<iostream>
+	"Matrix4.h"
+
+1544432737 e:\tim\实验二\matrix4.h
+	<iostream>
+	"math.h"
+
+1544454277 source:e:\tim\实验二\matrix4.cpp
+	"Matrix4.h"
+
+1544454298 source:e:\projects\lecture\实验二\main.cpp
+	<iostream>
+	"Matrix4.h"
+
+1544776719 e:\projects\lecture\实验二\matrix4.h
+	<iostream>
+	"math.h"
+
+1544454386 source:e:\projects\lecture\实验二\matrix4.cpp
+	"Matrix4.h"
+
