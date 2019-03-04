@@ -75,6 +75,7 @@ int main()
 	Node *root = NULL;
 	int t[] = { 5,4,6,3,7 };
 	for (int i = 0; i < 5; i++) root = build(root, t[i]);
+
 	levelOrder(root);
 	cout << ";" << endl;
 
