@@ -16,7 +16,6 @@ public:
 //通过递归构建二叉树
 BinTree *CreateBinTree()
 {
-	
 	int data;
 	BinTree *T;
 	cin >> data;
@@ -63,6 +62,7 @@ void PostTravel(BinTree* tree)
 	}
 }
 
+//层序遍历
 void LevelTravel(BinTree* tree)
 {
 	queue<BinTree*> q;
@@ -79,6 +79,7 @@ void LevelTravel(BinTree* tree)
 	}
 }
 
+//插入数
 void InsertTree(BinTree* &tree, int data)
 {
 	if (tree == NULL)
@@ -96,23 +97,49 @@ void InsertTree(BinTree* &tree, int data)
 	}
 }
 
+//查找树的最小值，树是中序排列
+int finMin(BinTree *tree)
+{
+	if (tree == NULL)
+		return -1;
+	else if (tree->leftChild == NULL) return tree->data;
+	else return finMin(tree->leftChild);
+}
+
+//查找树的最大值
+int finMax(BinTree *tree)
+{
+	if (tree == NULL)
+		return -1;
+	else if (tree->rightChild == NULL) return tree->data;
+	else return finMax(tree->rightChild);
+}
+
+
+//删除函数
 void RemoveTree(BinTree* &tree, int data)
 {
-	if (tree - NULL) return;
-	if (tree->data > data) { RemoveTree(tree->leftChild, data); }
-	else if (tree->data < data) { RemoveTree(tree->rightChild, data);}
+	if (tree == NULL) return; 
+	if (data<tree->data) RemoveTree(tree->leftChild, data);
+	else if (data>tree->data)  RemoveTree(tree->rightChild, data);
+	else if (tree->leftChild && tree->rightChild)
+	{
+		tree->data = finMin(tree->rightChild);
+		RemoveTree(tree->rightChild, tree->data);//回归
+	}
 	else
 	{
-		//BinTree *node = tree;
+	    //左空，右上，否则，左上
 		tree = (tree->leftChild) ? tree->leftChild : tree->rightChild;
 	}
 }
 
+
 int main()
 {
 	BinTree *tree = NULL;
-/*
-	cout << "Please input a tree with PreOrder,use -1 as NULL" << endl;
+
+	/*cout << "Please input a tree with PreOrder,use -1 as NULL" << endl;
 	tree = CreateBinTree();
 	
 	cout << "PreOrder Traversal" << endl;
@@ -129,8 +156,8 @@ int main()
 
 	cout << "LevelOrder Traversal" << endl;
 	LevelTravel(tree);
-	cout << " " << endl;
-*/
+	cout << " " << endl;*/
+
 	int a;
 	for (int i=0;i < 6;i++)
 	{
@@ -138,6 +165,12 @@ int main()
 		cin >> a;
 		InsertTree(tree, a);
 	}
+
+	cout << "LevelOrder Traversal" << endl;
+	LevelTravel(tree);
+	cout << " " << endl;
+
+	RemoveTree(tree, 2);
 
 	cout << "LevelOrder Traversal" << endl;
 	LevelTravel(tree);
