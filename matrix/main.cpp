@@ -1,40 +1,49 @@
-#include <windows.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include "resource.h"
+#include<iostream>
+#include"Matrix4.h"
 
-HINSTANCE hInst;
+using namespace std;
 
-BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+int main()
 {
-    switch(uMsg)
-    {
-    case WM_INITDIALOG:
-    {
-    }
-    return TRUE;
+    //double m[4][4]={{1,0,0,0},{1,2,0,0},{2,1,3,0},{1,2,1,4}};
+    double m[4][4]={{0,2,0,1},{3,3,2,1},{3,2,4,0},{2,2,1,1}};
+    //double m[4][4]={{1,1,2,2},{2,2,3,3},{2,1,3,4},{5,3,1,2}};
+    Matrix_4x4 a;
+    cout<<"a : "<<a<<endl;
 
-    case WM_CLOSE:
-    {
-        EndDialog(hwndDlg, 0);
-    }
-    return TRUE;
+    Matrix_4x4 b(m);
+    cout<<"b(m) : "<<b<<endl;
 
-    case WM_COMMAND:
+    Matrix_4x4 c(b);
+    cout<<"c(b) : "<<c<<endl;
+
+    Matrix_4x4 d;
+    for (int i=0;i<4;i++)
     {
-        switch(LOWORD(wParam))
-        {
-        }
+        for (int j=0;j<4;j++)
+            d[i][j]=-i*4-j;
     }
-    return TRUE;
-    }
-    return FALSE;
+    cout<<"d : "<<d<<endl;
+
+
+    d=a+c;
+    cout<<"d=a+c : "<<d<<endl;
+
+    d=d-a;
+    cout<<"d=d-a : "<<d<<endl;
+
+    d=c.transpose();
+    cout<<"d=c.transpose() : "<<d<<endl<<"c : "<<c.transpose()<<endl;
+
+    d=c.inverse();
+    cout<<"c.inverse "<<d<<endl;
+
+    d=b*d;
+    cout<<"d=c*c.inverse "<<d<<endl;
+
+    double determinant=b.det();
+    cout<<endl<<"b.det()= "<<determinant<<endl;
+
+    return 0;
 }
 
-
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
-{
-    hInst=hInstance;
-    InitCommonControls();
-    return DialogBox(hInst, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DlgMain);
-}
