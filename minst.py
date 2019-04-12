@@ -5,8 +5,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 INPUT_NODE = 784 # 每一张图片都是28*28的
 OUTPUT_NODE = 10 # 输出是一个10分类
 
-LAYER1_NODE = 500 # 隐藏层节点数
-BATCH_SIZE = 100 # 每个Batch的大小
+LAYER1_NODE = 500  # 隐藏层节点数
+BATCH_SIZE = 100  # 每个Batch的大小
 
 LEARNING_RATE_BASE = 0.8 # 最开始的学习率
 LEARNING_RATE_DECAY = 0.99 # 在指数衰减学习率的过程中用到
@@ -53,6 +53,7 @@ def train(mnist):
     )
     biases1 = tf.Variable(
         tf.constant(0.1, shape=[LAYER1_NODE])
+
     )
     # 生成输出层的参数
     weights2 = tf.Variable(
@@ -140,7 +141,8 @@ def train(mnist):
     # 表示一个样例的前向传播结果。tf.argmax的第二个参数“1”表示选取最大值的操作仅在第一
     # 个维度中进行，也就是说，只在每一行选取最大值对应的下标。于是得到的结果是一个长度为
     # batch的一维数组，这个一维数组中的值就表示了每一个样例对应的数字识别结果。tf.equal
-    # 判断两个张量的每一维是否相等，如果相等返回True，否则返回False。
+    # 判断两个张量的每
+    # 一维是否相等，如果相等返回True，否则返回False。
     correct_prediction = tf.equal(tf.argmax(average_y, 1), tf.argmax(y_, 1))
     # 注意这个accuracy是只跟average_y有关的，跟y是无关的
     # 这个运算首先讲一个布尔型的数值转化为实数型，然后计算平均值。这个平均值就是模型在这
