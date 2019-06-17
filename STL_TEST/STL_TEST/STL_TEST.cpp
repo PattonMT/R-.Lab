@@ -4,141 +4,54 @@
 #include "pch.h"
 #include <iostream>
 #include <vector>
-#include <string>
-#include <queue>
-#include <algorithm>
-#include <cstdio>      /* printf, scanf, NULL */
-#include <cstdlib>     /* malloc, free, rand */
-#include <deque>
+//#include <bits.h>
 using namespace std;
-int a[2000][2000];
 
-class Node
-{
-public: 
-	int val;
-	Node *left;
-	Node *right;
-	Node() { left = NULL;right = NULL; }
-};
-
-void Quicksort(vector<int> &a, int left, int right)
+void QuickSort(vector<int> &a,int left,int right)
 {
 	int i = left;
 	int j = right;
-	int begin = a[left];
-
+	int first = a[i];
 	while (i <= j)
 	{
-		while (a[i] < a[left]) i++;
-		while (a[j] > a[right]) j--;
-		if (i < j)
+		while (a[i] < first) { i++;}
+		while (a[j] > first) { j--;}
+
+		if (i <= j)
 		{
 			swap(a[i], a[j]);
 			i++;
 			j--;
 		}
 	}
-	
-	if (i < right) Quicksort(a, i, right);
-	if (j > left) Quicksort(a, left, j);
+	if (j > left) QuickSort(a, left, j);
+	if (i < right) QuickSort(a, i, right);
 }
 
-Node *createTree()
-{
-	int data;
-	Node *T;
-	cin >> data;
-	if (data == -1)
-		T = NULL;
-	else
-	{
-		T = new Node();
-		T->val= data;
-		T->left = createTree();
-		T->right = createTree();
-	}
-	return T;
-}
+y_clipped = tf.clip_by_value(y_, 1e-10, 0.9999999)
+cross_entropy = -tf.reduce_mean(tf.reduce_sum(y * tf.log(y_clipped) + (1 - y) * tf.log(1 - y_clipped), axis=1))
 
-void PreTree(Node* tree,vector<int> result)
-{
-	if (tree)
-	{
-		result.push_back(tree->val);
-		PreTree(tree->left,result);
-		PreTree(tree->right,result);
-	}
-}
-
-void LevelTree(Node* tree, vector<int> result)
-{
-	queue<Node*> q;
-	Node* temp;
-	q.push(tree);
-
-	while (!q.empty())
-	{
-		temp = q.front();
-		result.push_back(temp->val);
-		q.pop();
-		if (tree->left) q.push(tree->left);
-		if (tree->right) q.push(tree->right);
-	}
-}
-
+#define eps 1e-8
 int main()
 {
-	vector<int>::iterator it;
-	vector<vector<int> > matrix(3, vector<int>(3,0));
-	/*int M = 3;
-	int N = 3;
-	int **matrix = new int*[M];
-	int *buffer = new int[M*N];
-	for (int i = 0;i < M;i++)
-		matrix[i] = buffer + i * N;*/
 
-	int array[] = { 10,21,6,15,98,13,7};
-	vector<int> aj(array,array+sizeof(array)/sizeof(int));
-	
-	char s[10] = "abcdefg";
-	cout << (void*)&matrix[0][0] << " " << (void*)&matrix[0][1] << " " << (void*)&matrix[0][2] << endl;
-	cout << (void*)&matrix[1][0] << " " << (void*)&matrix[1][1] << " " << (void*)&matrix[1][2] << endl;
-	cout << (void*)&matrix[2][0] << " " << (void*)&matrix[2][1] << " " << (void*)&matrix[2][2] << endl;
-	//Quicksort(aj,0, sizeof(array) / sizeof(int)-1);
-	
-	/*for (it = aj.begin();it != aj.end();it++)
-		cout << *it << " ";
-	cout <<endl;*/
 
-//测试next_permutation
-	/*int myints[] = {1,2,3,4};
-	sort(myints, myints + 4);
-	cout << "the 3! possible permutation with 3 elements\n";
-	do {
-		cout << myints[0] << " " << myints[1]<<" " << myints[2] <<" "<< myints[3]<<'\n';
-	} while (next_permutation(myints, myints + 4));
-	cout << "After loop: " << myints[0] << ' ' << myints[1] << ' ' << myints[2] <<" "<< myints[3] << '\n';*/
-
-//* malloc example: random string generator*/
-		/*int i, n;
-		char * buffer;
-
-		printf("How long do you want the string? ");
-		cin>>i;
-
-		buffer = (char*)malloc(i + 1);
-		if (buffer == NULL) exit(1);
-
-		for (n = 0; n < i; n++)
-			buffer[n] = rand() % 26 + 'a';
-		buffer[i] = '\0';
-
-		cout << "Random string:" << buffer;
-		free(buffer);*/
-
-	
+	int ans;
+	ans = (int)pow(8, 1.0 / 3);
+	cout << ans << " ";
+	ans = (int)pow(8, 1.0 / 3 + eps);
+	cout << ans <<endl;
 	system("pause");
 	return 0;
 }
 
+// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
+// 调试程序: F5 或调试 >“开始调试”菜单
+
+// 入门提示: 
+//   1. 使用解决方案资源管理器窗口添加/管理文件
+//   2. 使用团队资源管理器窗口连接到源代码管理
+//   3. 使用输出窗口查看生成输出和其他消息
+//   4. 使用错误列表窗口查看错误
+//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
+//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
