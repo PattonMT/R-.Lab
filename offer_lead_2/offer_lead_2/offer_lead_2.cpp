@@ -35,18 +35,6 @@ double pow_try(double m, int n)
 	return base;	
 }
 
-void printTo_n(int n)
-{
-	if (n <= 0)
-		return;
-	// 初始化字符串
-	char* number = new char[n + 1];
-	memset(number, '9', n);
-	number[n] = '\0';
-
-	
-
-}
 
 struct ListNode
 {
@@ -54,6 +42,90 @@ struct ListNode
 	ListNode* n_next;
 };
 
+struct BinaryTree
+{
+	int p_value;
+	BinaryTree* p_left;
+	BinaryTree* p_right;
+};
+
+void deleteDuplication(ListNode** pHead)
+{
+	if (pHead == nullptr || *pHead == nullptr)
+		return;
+
+	ListNode* pPre = nullptr;
+	ListNode* pCur = *pHead;
+
+	while (pCur != nullptr)
+	{
+		ListNode* pNex = pCur->n_next;
+		bool needDelete = false;
+		if (pNex != nullptr&&pCur->n_value == pNex->n_value)
+			needDelete = true;
+
+		if (!needDelete)
+		{
+			pPre = pCur;
+			pCur = pNex;
+		}
+		else
+		{
+			int value = pCur->n_value;
+			ListNode* pTobeDel = pCur;
+			while (pTobeDel != nullptr&&pTobeDel->n_value == value)
+			{
+				pNex = pTobeDel->n_next;
+
+				delete pTobeDel;
+				pTobeDel = nullptr;
+
+				pTobeDel = pNex;
+			}
+
+			// 若指针头就是重复，且被删除，后面无后续数字，则
+			if (pPre == nullptr)
+				*pHead = pNex;
+			else
+				pPre->n_next = pNex;
+			pCur = pNex;
+		}
+		
+	}
+}
+
+bool a_include_b(BinaryTree* father, BinaryTree* son)
+{
+	if (son == nullptr)
+		return true;
+	if (father == nullptr)
+		return false;
+	if (father->p_value != son->p_value)
+		return false;
+
+	return a_include_b(father->p_left, son->p_left) && a_include_b(father->p_right, son->p_right);
+}
+
+bool SonTree(BinaryTree* father, BinaryTree* son)
+{
+	bool result = false;
+	if (father != nullptr &&son != nullptr)
+	{
+		if (father->p_value == son->p_value)
+			result = a_include_b(father, son);
+
+		if (!result)
+			result = SonTree(father->p_left, son);
+
+		if(!result)
+			result = SonTree(father->p_right, son);
+	}
+	return result;
+}
+
+
+
+// 奇数在前，偶数在后
 void swap1_0(vector<int> &a)
 {
 	//int tmp = a[0];
@@ -74,6 +146,68 @@ void swap1_0(vector<int> &a)
 		}
 	}	
 }
+
+ListNode* FindKthNode(ListNode*pListHead, int k)
+{
+	if (pListHead == NULL || k == 0)
+		return NULL;
+	
+	ListNode* ANode = pListHead;
+	ListNode* BNode = ANode;
+
+	for (int i = 0;i < k - 1;i++)
+		ANode = ANode->n_next;
+
+	while (ANode->n_next)
+	{
+		ANode = ANode->n_next;
+		BNode = BNode->n_next;
+	}
+	return BNode;
+}
+
+ListNode* ReverseList(ListNode* pHead)
+{
+	ListNode* pre;
+	ListNode* curr;
+	ListNode* follow;
+
+	pre = pHead;
+	curr = pHead->n_next;
+	follow = curr->n_next;
+
+	pHead->n_next = NULL;
+	while (follow!=NULL)
+	{
+		curr->n_next = pre;
+		pre = curr;
+		curr = follow;
+		follow = follow->n_next;
+	}
+	curr->n_next = pre;
+}
+
+ListNode*Merge(ListNode* pHead1, ListNode* pHead2)
+{
+	if (pHead1 == NULL)
+		return pHead2;
+	if (pHead2 == NULL)
+		return pHead1;
+
+	ListNode* MergedHead = NULL;
+	if (pHead1->n_next < pHead2->n_next)
+	{
+		MergedHead = pHead1;
+		MergedHead->n_next = Merge(pHead1->n_next,pHead2);
+	}
+	else
+	{
+		MergedHead = pHead2;
+		MergedHead->n_next = Merge(pHead1,pHead2->n_next);
+	}
+	return MergedHead;
+}
+
 int main()
 {
 	int sum;

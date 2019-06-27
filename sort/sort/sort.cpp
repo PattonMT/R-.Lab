@@ -1,4 +1,4 @@
-﻿// sort.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+﻿// sort.cpp : 包含快排，归并排序，堆排序
 
 #include "pch.h"
 #include <iostream>
@@ -6,7 +6,7 @@
 #include <algorithm>
 using namespace std;
 
-//快排
+// 快排
 void QuickSort(vector<int> &a,int left,int right)
 {
 	int i = left;
@@ -27,8 +27,8 @@ void QuickSort(vector<int> &a,int left,int right)
 	if (j > left) QuickSort(a, left, j);
 }
 
-//堆排
-//建立最大堆
+// 堆排
+//// 建立最大堆
 void insert_i(vector<int> &a, int length)
 {
 	while (length > 0)
@@ -43,7 +43,7 @@ void insert_i(vector<int> &a, int length)
 	}
 }
 
-//将最大值删除并放在尾部
+//// 将最大值删除并放在尾部
 void delete_max(vector<int> &a, int length)
 {
 	int tmp = a[0];
@@ -78,36 +78,47 @@ void HeapSort(vector<int> &a, int n)
 	}
 }
 
-//归并排序
-const int maxn = 500000, INF = 0x3f3f3f3f;
-int L[maxn / 2 + 2], R[maxn / 2 + 2];
-void merge(vector<int> &a, int n, int left, int mid, int right)
+// 归并排序
+void Merge(vector<int> &a, int l, int m, int r)
 {
-	int n1 = mid - left, n2 = right - mid;
-	for (int i = 0;i < n1;i++)
-		L[i] = a[left + i];
-	for (int i = 0;i < n2;i++)
-		R[i] = a[mid + i];
-	L[n1] = R[n2] = INF;
-	int i = 0, j = 0;
-	for (int k = left;k < right;k++)
+	// 获取左右部分数组的大小（实际还是原数组）
+	int l_c = m - l + 1;
+	int r_c = r - m;
+	
+	// 将数组值赋给临时数组（两个数组）
+	int i, j, k;
+	vector<int> L(l_c + 1);
+	vector<int> R(r_c + 1);
+	for (i = 0;i < l_c;i++)
+		L[i] = a[l + i];
+	for (j = 0;j < r_c;j++)
+		R[j] = a[m + 1 + j];
+
+	// 每个数组的最后一个数赋值11111111,任意数与之比较都小
+	L[l_c] = 11111111;
+	R[r_c] = 11111111;
+
+	//
+	for (i = 0, j = 0, k = l;k <= r;k++)
 	{
-		if (L[i] <= R[j])
+		if (L[i] < R[j])
 			a[k] = L[i++];
 		else
 			a[k] = R[j++];
 	}
 }
-void MergeSort(vector<int> &a, int n, int left, int right)
+
+void MergeSort(vector<int> &a, int l, int r)
 {
-	if (left + 1 < right)
+	if (l < r)
 	{
-		int mid = (left + right) / 2;
-		MergeSort(a, n, left, mid);
-		MergeSort(a, n, mid, right);
-		merge(a, n, left, mid, right);
+		int m = (l + r) / 2;
+		MergeSort(a, l, m);
+		MergeSort(a, m + 1, r);
+		Merge(a, l, m, r);
 	}
 }
+
 int main()
 {
 	int arr[] = { 5,16,7,26,9,4 };

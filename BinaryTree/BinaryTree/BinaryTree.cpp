@@ -4,7 +4,8 @@
 #include <iostream>
 #include <queue>
 using namespace std;
-//创建节点类，包含数值和左右孩子
+
+// 创建节点类，包含数值和左右孩子
 class BinTree
 {
 public:
@@ -13,7 +14,8 @@ public:
 	BinTree *rightChild;
 	BinTree() { leftChild = NULL; rightChild = NULL; }
 };
-//通过递归构建二叉树
+
+// 通过递归构建二叉树
 BinTree *CreateBinTree()
 {
 	int data;
@@ -30,7 +32,8 @@ BinTree *CreateBinTree()
 	}
 	return T;
 }
-//前序遍历
+
+// 前序遍历
 void PreTravel(BinTree* tree)
 {
 	if (tree)
@@ -40,7 +43,8 @@ void PreTravel(BinTree* tree)
 		PreTravel(tree->rightChild);
 	}
 }
-//中序遍历
+
+// 中序遍历
 void InTravel(BinTree* tree)
 {
 	if (tree)
@@ -51,7 +55,7 @@ void InTravel(BinTree* tree)
 	}
 }
 
-//后序遍历
+// 后序遍历
 void PostTravel(BinTree* tree)
 {
 	if (tree)
@@ -62,7 +66,7 @@ void PostTravel(BinTree* tree)
 	}
 }
 
-//层序遍历
+// 层序遍历
 void LevelTravel(BinTree* tree)
 {
 	queue<BinTree*> q;
@@ -79,7 +83,54 @@ void LevelTravel(BinTree* tree)
 	}
 }
 
-//插入数
+
+// 之字形遍历
+void PrintZigZag(BinTree* pRoot)
+{
+	if (pRoot == nullptr)
+		return;
+
+	queue<BinTree*> q[2];
+	q[0].push(pRoot);
+	int order = 0; // 标志在奇数层还是偶数层
+
+	while (!q[0].empty() || !q[2].empty())
+	{
+		BinTree* print_one = q[order].front();
+		q[order].pop();
+
+		cout << print_one->data << ' ';
+
+		// level范围是{0，1，2....}
+		// oorder标准{0，1，0，1....}
+		// 偶数行为自右向左压；奇数行自左向右压
+		if (order == 0)
+		{
+			if (print_one->rightChild)
+				q[0].push(print_one->rightChild);
+
+			if (print_one->leftChild)
+				q[0].push(print_one->leftChild);
+		}
+		else
+		{
+
+			if (print_one->leftChild)
+				q[1].push(print_one->leftChild);
+
+			if (print_one->rightChild)
+				q[1].push(print_one->rightChild);
+		}
+
+		if (q[order].empty())
+		{
+			cout << '\n';
+			order = 1 - order;
+		}
+	}
+}
+
+// 插入数
 void InsertTree(BinTree* &tree, int data)
 {
 	if (tree == NULL)
@@ -97,7 +148,7 @@ void InsertTree(BinTree* &tree, int data)
 	}
 }
 
-//查找树的最小值，树是中序排列
+// 查找树的最小值，树是中序排列
 int finMin(BinTree *tree)
 {
 	if (tree == NULL)
@@ -106,7 +157,7 @@ int finMin(BinTree *tree)
 	else return finMin(tree->leftChild);
 }
 
-//查找树的最大值
+// 查找树的最大值
 int finMax(BinTree *tree)
 {
 	if (tree == NULL)
@@ -116,7 +167,7 @@ int finMax(BinTree *tree)
 }
 
 
-//删除函数
+// 删除函数
 void RemoveTree(BinTree* &tree, int data)
 {
 	if (tree == NULL) return; 
@@ -133,7 +184,6 @@ void RemoveTree(BinTree* &tree, int data)
 		tree = (tree->leftChild) ? tree->leftChild : tree->rightChild;
 	}
 }
-
 
 int main()
 {
@@ -159,7 +209,7 @@ int main()
 	cout << " " << endl;*/
 
 	int a;
-	for (int i=0;i < 6;i++)
+	for (int i=0;i < 7;i++)
 	{
 		cout << "Input a node" << endl;
 		cin >> a;
@@ -170,11 +220,16 @@ int main()
 	LevelTravel(tree);
 	cout << " " << endl;
 
-	RemoveTree(tree, 2);
+	//RemoveTree(tree, 2);
 
-	cout << "LevelOrder Traversal" << endl;
+	/*cout << "LevelOrder Traversal" << endl;
 	LevelTravel(tree);
+	cout << " " << endl;*/
+
+	cout << "Zigzag Traversal" << endl;
+	PrintZigZag(tree);
 	cout << " " << endl;
+
 
 	system("pause");
 	return 0;
