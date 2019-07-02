@@ -284,6 +284,34 @@ void HeapSort(vector<int> &a)
 		delete_min(a, i);
 }
 
+// 将二叉搜索树转化为排序双向链表
+BinaryTree* Convert(BinaryTree* pOrigin)
+{
+	BinaryTree*pLastNode = nullptr;
+	ConvertNode(pOrigin, &pLastNode);
+}
+
+void ConvertNode(BinaryTree* pNode, BinaryTree**pLastNode)
+{
+	if (pNode == nullptr)
+		return;
+
+	BinaryTree* pCurrent = pNode;
+
+	if (pCurrent->b_left != nullptr)
+		ConvertNode(pCurrent->b_left, pLastNode);
+	// 将当前值左（前）指向lastnode
+	// lastnode 的右（后）指向当前值
+	pCurrent->b_left = *pLastNode;
+	if (pLastNode != nullptr)
+		(*pLastNode)->b_right = pCurrent;
+	// 将last指向当前值
+	*pLastNode = pCurrent;
+
+	if (pCurrent->b_right != nullptr)
+		ConvertNode(pCurrent->b_right, pLastNode);
+}
+
 void Permutation(char* pStr, char* pBegin)
 {
 	if (*pBegin == '\0')
@@ -309,6 +337,20 @@ void Permutation(char* pStr, char* pBegin)
 		}
 	}
 }
+
+// 序列化二叉树
+void Series(BinaryTree* pRoot, ostream & stream)
+{
+	if (pRoot == nullptr)
+	{
+		stream << "$,";
+		return;
+	}
+	stream << pRoot->b_value << ',';
+	Series(pRoot->b_left, stream);
+	Series(pRoot->b_right, stream);
+}
+
 
 int main()
 {
