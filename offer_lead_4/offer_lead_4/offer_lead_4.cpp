@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 struct BinTreeNode
@@ -159,12 +160,134 @@ int depth(BinTreeNode* root)
 	return max(Rleft+1, Rright+1);
 }
 
+//void backtrack(vector<int> &nums, vector<vector<int>> &res, int i)
+//{
+//	if (i == nums.size())
+//		res.push_back(nums);
+//	for (int j = i;j < nums.size();j++) {
+//		swap(nums[i], nums[j]);
+//		backtrack(nums, res, i + 1);
+//		swap(nums[i], nums[j]);
+//	}
+//}
+
+//vector<vector<int>> permute(vector<int>& nums) 
+//{
+//	vector<vector<int>> res;
+//	backtrack(nums, res, 0);
+//	return res;
+//}
+
+void permutationrecusive(vector<int> &num, int k, vector<vector<int> >&result)
+{
+	if (k == num.size())
+	{
+		result.push_back(num);
+		return;
+	}
+
+	for (int i = k;i < num.size();i++)
+	{
+		swap(num[k], num[i]);
+		permutationrecusive(num, k + 1, result);
+		swap(num[k], num[i]);
+	}
+}
+
+vector<vector<int> > permute(vector<int> &num)
+{
+	vector<vector<int> > result;
+	permutationrecusive(num, 0, result);
+	return result;
+}
+
+bool equal(vector<int> v, vector<int> res)
+{
+	for (int j = 0;j < v.size();j++)
+	{
+		if (v[j] != res[j])
+			return false;
+	}
+	return true;
+}
+
 int main()
 {
-	int myints[] = { 1,-2,3,10,-4,7,2,-5 };
-	vector<int> v(myints, myints + 8);
-	int a=MaxSum(v, 8);
-	cout << a <<endl;
+	int order=0;
+	int num;
+	cin >> num;
+	vector<int> a(num, 0);
+	int i = 0;
+	while (i<num)
+	{
+		cin >> a[i];
+		i++;
+	}
+	vector<vector<int>>c(5, vector<int>(6));
+	vector<int> v(a.begin(), a.end());
+	sort(v.begin(), v.end());
+	vector<vector<int>> res;
+	res=permute(v);
+
+	for (int i = 0;i < res.size();i++)
+	{
+		if (equal(v, res[i]))
+		{
+			order = i;
+			break;
+		}
+	}
+
+	for (int i = 0;i < res.size();i++)
+	{
+		for (int j = 0;j < num;j++)
+			cout << c[i][j] << " ";
+		cout << endl;
+	}
+
+	//int inorder = res.size() - order-1;
+	//for (int i = 0;i < num;i++)
+	//	cout << res[inorder][i] << " ";
+	//cout << endl;
+	//
+	//int myints[] = { 1,-2,3,10,-4,7,2,-5 };
+	//vector<int> v(num,0);
+	//int a=MaxSum(v, 8);
+	////cout << a <<endl;
+
+	//// 输入数组
+	////int num[100];
+	////int i = 0;
+	//while (cin >> num[i])
+	//{
+	//	cout << num[i] << " ";
+	//	i++;
+	//}
+
+	//char s[50];
+	//string stra;
+	////cin.getline(s);
+	////getline(cin, stra);
+	////cout << "string is " << s << endl;
+
+	//string **str = new string*[8];
+	//for (int i = 0; i < 8; i++) 
+	//	str[i] = new string[50];
+
+	//int i = 0;
+	//getline(cin, *str[i]);
+	//while (*str[i]!="\0")
+	//{
+	//	i++;
+	//	getline(cin, *str[i]);
+	//}
+
+	//// 输出字符串数组	
+	//for (int i = 0;i < 8;i++)
+	//{
+	//	cout<< *str[i] << endl;
+	//}
 	system("pause");
 	return 0;
 }
+
